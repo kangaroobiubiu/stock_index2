@@ -1,6 +1,11 @@
 package com.itheima.stock.mapper;
 
+import com.itheima.stock.pojo.domain.InnerMarketDomain;
 import com.itheima.stock.pojo.entity.StockMarketIndexInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+import java.util.List;
 
 /**
 * @author 46035
@@ -21,5 +26,11 @@ public interface StockMarketIndexInfoMapper {
     int updateByPrimaryKeySelective(StockMarketIndexInfo record);
 
     int updateByPrimaryKey(StockMarketIndexInfo record);
+
+    /*
+    Date curData 时间点
+    List<String> marketCodes  大盘编码集合
+     */
+    List<InnerMarketDomain> getMarketInfo(@Param("curData") Date curData, @Param("marketCodes") List<String> marketCodes);
 
 }

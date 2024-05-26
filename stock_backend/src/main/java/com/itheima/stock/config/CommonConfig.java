@@ -1,6 +1,8 @@
 package com.itheima.stock.config;
 
+import com.itheima.stock.pojo.vo.StockInfoConfig;
 import com.itheima.stock.utils.IdWorker;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @description : 定义公共的配置类
  */
 @Configuration
+@EnableConfigurationProperties({StockInfoConfig.class})  // 在公共配置类中(开启)加载实体VO对象：
 public class CommonConfig {
     /**
      * 定义密码加密匹配器bean
