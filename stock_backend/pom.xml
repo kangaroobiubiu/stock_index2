@@ -67,6 +67,7 @@
 
     </dependencies>
 
+
     <build>
         <!--打包名称-->
         <finalName>${project.artifactId}</finalName>
