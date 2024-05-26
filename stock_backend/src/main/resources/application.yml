@@ -1,0 +1,32 @@
+# 定义端口号
+server:
+  port: 8091
+# 配置数据源
+spring:
+  datasource:
+    druid:
+      username: root
+      password: 1234
+      url: jdbc:mysql://192.168.200.128:3306/stock_db?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+      driver-class-name: com.mysql.jdbc.Driver
+      # 初始化时建立物理连接的个数。初始化发生在显示调用 init 方法，或者第一次 getConnection 时
+      initialSize: 6
+      # 最小连接池数量
+      minIdle: 2
+      # 最大连接池数量
+      maxActive: 20
+      # 获取连接时最大等待时间，单位毫秒。配置了 maxWait 之后，缺省启用公平锁，
+      # 并发效率会有所下降，如果需要可以通过配置 useUnfairLock 属性为 true 使用非公平锁。
+      maxWait: 60000
+  profiles:
+    active: cache   #激活其他配置文件，存在多个，逗号间隔 spring.profiles.active=cache
+# 配置mybatis
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印运行的sql
+  type-aliases-package: com.itheima.stock.pojo.entity # 批量给指定包下的实体类取别名，方便xml使用，默认是类名，首字母小写
+  mapper-locations: classpath:mapper/*.xml # 加载类路径下的mapper下的所有xml文件
+# 设置分页
+pagehelper:
+  helper-dialect: mysql #指定分页数据库类型（方言）
+  reasonable: true #合理查询超过最大页，则查询最后一页
