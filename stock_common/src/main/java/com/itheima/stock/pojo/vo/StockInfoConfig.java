@@ -3,13 +3,19 @@ package com.itheima.stock.pojo.vo;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
+// Data注解 自动配置 get set方法
 @Data
 @ConfigurationProperties(prefix = "stock")
 
 public class StockInfoConfig {
 
-    // 国内大盘数据
+    // day2 14
 
-    //外盘
+    //A股大盘ID集合
+    private List<String> inner;
+    //外盘ID集合
+    private List<String> outer;
 
 }

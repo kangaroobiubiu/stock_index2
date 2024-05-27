@@ -3,13 +3,16 @@ package com.itheima.stock.pojo.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /*
 大盘数据
 约定从数据库查询的数据如果来自多张表或者单表的部分字段，则封装到domain实体类下；
  */
+@Data
 @ApiModel("大盘数据")
 public class InnerMarketDomain {
 
@@ -25,8 +28,8 @@ public class InnerMarketDomain {
   private BigDecimal rose;//涨幅
   private BigDecimal amplitude;//振幅
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH-mm")
-  private BigDecimal curTime;//当前时间
+  @JsonFormat(pattern = "yyyy-MM-dd HH-mm")
+  private Date curTime;//当前时间
 
 
 

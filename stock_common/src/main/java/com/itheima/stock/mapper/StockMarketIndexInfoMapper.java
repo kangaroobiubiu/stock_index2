@@ -31,6 +31,6 @@ public interface StockMarketIndexInfoMapper {
     Date curData 时间点
     List<String> marketCodes  大盘编码集合
      */
-    List<InnerMarketDomain> getMarketInfo(@Param("curData") Date curData, @Param("marketCodes") List<String> marketCodes);
+    List<InnerMarketDomain> getMarketInfo(@Param("curDate") Date curDate, @Param("marketCodes") List<String> marketCodes);
 
 }
