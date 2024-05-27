@@ -28,7 +28,7 @@ public class InnerMarketDomain {
   private BigDecimal rose;//涨幅
   private BigDecimal amplitude;//振幅
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH-mm")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
   private Date curTime;//当前时间
 
 
