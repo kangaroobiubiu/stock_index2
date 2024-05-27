@@ -2,6 +2,7 @@ package com.itheima.stock.controller;
 
 
 import com.itheima.stock.pojo.domain.InnerMarketDomain;
+import com.itheima.stock.pojo.domain.StockBlockDomain;
 import com.itheima.stock.service.StockService;
 import com.itheima.stock.vo.resp.R;
 import io.swagger.annotations.Api;
@@ -32,6 +33,18 @@ public class StockController {
     public R<List<InnerMarketDomain>> getInnerMarketInfo(){
         return stockService.getInnerMarketInfo();
     }
+
+
+    /**
+     *需求说明: 获取沪深两市板块最新数据，以交易总金额降序查询，取前10条数据
+     * @return
+     */
+    @GetMapping("/sector/all")
+    public R<List<StockBlockDomain>> sectorAll(){
+        return stockService.sectorAllLimit();
+    }
+
+
 
 
 }

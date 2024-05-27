@@ -112,4 +112,37 @@
             cur_time =  #{curTime,jdbcType=TIMESTAMP}
         where   id = #{id,jdbcType=BIGINT} 
     </update>
+
+
+    <select id="sectorAllLimit" resultType="com.itheima.stock.pojo.domain.StockBlockDomain">
+        select
+            sbr.company_num  as companyNum,
+            sbr.trade_amount as tradeAmt,
+            sbr.label        as code,
+            sbr.avg_price    as avgPrice,
+            sbr.block_name   as name,
+            sbr.cur_time     as curDate,
+            sbr.trade_volume as tradeVol,
+            sbr.updown_rate  as updownRate
+        from stock_block_rt_info as sbr
+        where sbr.cur_time=#{timePoint}
+        order by sbr.trade_volume desc
+            limit 10
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

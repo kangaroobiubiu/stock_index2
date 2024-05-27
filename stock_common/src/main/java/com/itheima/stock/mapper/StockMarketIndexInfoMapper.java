@@ -1,6 +1,7 @@
 package com.itheima.stock.mapper;
 
 import com.itheima.stock.pojo.domain.InnerMarketDomain;
+import com.itheima.stock.pojo.domain.StockBlockDomain;
 import com.itheima.stock.pojo.entity.StockMarketIndexInfo;
 import org.apache.ibatis.annotations.Param;
 
@@ -32,5 +33,10 @@ public interface StockMarketIndexInfoMapper {
     List<String> marketCodes  大盘编码集合
      */
     List<InnerMarketDomain> getMarketInfo(@Param("curDate") Date curDate, @Param("marketCodes") List<String> marketCodes);
+
+
+
+
+
 
 }
