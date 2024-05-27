@@ -3,6 +3,8 @@ package com.itheima.stock.mapper;
 import com.itheima.stock.pojo.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
 * @author 46035
 * @description 针对表【sys_user(用户表)】的数据库操作Mapper
@@ -29,4 +31,8 @@ public interface SysUserMapper {
      * @return
      */
     SysUser getUserByUserName(@Param("userName") String userName);
+
+
+
+    List<SysUser> findAll();
 }
