@@ -1,6 +1,11 @@
 package com.itheima.stock.mapper;
 
+import com.itheima.stock.pojo.domain.StockUpdownDomain;
 import com.itheima.stock.pojo.entity.StockRtInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+import java.util.List;
 
 /**
 * @author 46035
@@ -22,4 +27,8 @@ public interface StockRtInfoMapper {
 
     int updateByPrimaryKey(StockRtInfo record);
 
+    /*
+    查询指定时间点下的股票数据集合
+     */
+    List<StockUpdownDomain> getStockInfoByTime(@Param("curDate") Date curDate);
 }

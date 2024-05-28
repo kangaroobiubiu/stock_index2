@@ -2,6 +2,8 @@ package com.itheima.stock.service;
 
 import com.itheima.stock.pojo.domain.InnerMarketDomain;
 import com.itheima.stock.pojo.domain.StockBlockDomain;
+import com.itheima.stock.pojo.domain.StockUpdownDomain;
+import com.itheima.stock.vo.resp.PageResult;
 import com.itheima.stock.vo.resp.R;
 
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
 股票服务接口
  */
 public interface StockService {
-    public R<List<InnerMarketDomain>> getInnerMarketInfo();
+    public R<List<InnerMarketDomain>> getInnerMarketInfo();  //大盘数据
 
 
     /**
@@ -18,5 +20,11 @@ public interface StockService {
      * @return
      */
     R<List<StockBlockDomain>> sectorAllLimit();
+
+    /*
+    分页查询最新的股票交易数据
+
+     */
+    R<PageResult<StockUpdownDomain>>  getStockInfoByPage(Integer page,Integer pageSize);
 
 }

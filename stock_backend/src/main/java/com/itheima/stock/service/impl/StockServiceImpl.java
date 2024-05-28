@@ -1,15 +1,20 @@
 package com.itheima.stock.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
 
 import com.itheima.stock.mapper.StockBlockRtInfoMapper;
 import com.itheima.stock.mapper.StockMarketIndexInfoMapper;
+import com.itheima.stock.mapper.StockRtInfoMapper;
 import com.itheima.stock.pojo.domain.InnerMarketDomain;
 import com.itheima.stock.pojo.domain.StockBlockDomain;
+import com.itheima.stock.pojo.domain.StockUpdownDomain;
 import com.itheima.stock.pojo.entity.StockMarketIndexInfo;
 import com.itheima.stock.pojo.vo.StockInfoConfig;
 import com.itheima.stock.service.StockService;
 import com.itheima.stock.utils.DateTimeUtil;
+import com.itheima.stock.vo.resp.PageResult;
 import com.itheima.stock.vo.resp.R;
 import com.itheima.stock.vo.resp.ResponseCode;
 import org.joda.time.DateTime;
@@ -34,6 +39,9 @@ public class StockServiceImpl implements StockService {
 
     @Autowired
     private StockBlockRtInfoMapper stockBlockRtInfoMapper;
+
+    @Autowired
+    private StockRtInfoMapper stockRtInfoMapper;
 
     @Override
     public R<List<InnerMarketDomain>> getInnerMarketInfo() {
@@ -86,11 +94,29 @@ public class StockServiceImpl implements StockService {
         return R.ok(infos);
     }
 
+    /*
+    分页查询最新股票数据
+     */
+    @Override
+    public  R<PageResult<StockUpdownDomain>>  getStockInfoByPage(Integer page, Integer pageSize) {
 
+        //     1.获取股票最新交易时间（精确到分钟，毫秒设置=0）
+        Date curDate = DateTimeUtil.getLastDate4Stock(DateTime.now()).toDate();
+        //     mock data
+        curDate = DateTime.parse("2021-12-30 09:42:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate();
 
+        //     2.设置pagehelp分页参数
+        PageHelper.startPage(page, pageSize);
+        //     3.调用mapper查询
+        List<StockUpdownDomain> pageData = stockRtInfoMapper.getStockInfoByTime(curDate);
+        //     4.组装pageresult对象
+        PageInfo<StockUpdownDomain> pageInfo = new PageInfo<>(pageData);
+        PageResult<StockUpdownDomain> pageResult = new PageResult<>(pageInfo);
 
+        //     5.响应数据
+        return R.ok(pageResult);
 
-
+    }
 
 
 

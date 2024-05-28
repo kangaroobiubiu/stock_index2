@@ -3,13 +3,16 @@ package com.itheima.stock.controller;
 
 import com.itheima.stock.pojo.domain.InnerMarketDomain;
 import com.itheima.stock.pojo.domain.StockBlockDomain;
+import com.itheima.stock.pojo.domain.StockUpdownDomain;
 import com.itheima.stock.service.StockService;
+import com.itheima.stock.vo.resp.PageResult;
 import com.itheima.stock.vo.resp.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -43,6 +46,23 @@ public class StockController {
     public R<List<StockBlockDomain>> sectorAll(){
         return stockService.sectorAllLimit();
     }
+
+
+    /*
+    分页查询最新股票交易数据
+     */
+    @GetMapping("/stock/all")
+    public  R<PageResult<StockUpdownDomain>> getStockInfoByPage(@RequestParam(value="page",defaultValue = "1",required = false) Integer page,
+                                                               @RequestParam(value = "pageSize",required = false,defaultValue = "20") Integer pageSize){
+
+
+        return stockService.getStockInfoByPage(page,pageSize);
+
+
+
+    }
+
+
 
 
 

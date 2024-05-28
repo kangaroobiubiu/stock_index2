@@ -39,7 +39,7 @@ public class TestPageHelper {
         int pages = pageInfo.getPages(); // 总页数
         int pageSize1= pageInfo.getPageSize();//每页大小
         int size=pageInfo.getSize();//当前页的记录数
-        Long total = pageInfo.getTotal();// 总记录数
+        Long total = pageInfo.getTotal ();// 总记录数
         List<SysUser> list = pageInfo.getList();//获取当前页内容
 
         System.out.println(all);
