@@ -23,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /*
@@ -136,6 +138,32 @@ public class StockServiceImpl implements StockService {
 
         //     4.响应数据
         return R.ok(pageData);
+
+    }
+
+    public R<Map<String,List>> getStockUpDownCount(){
+        //1.获取最新的交易时间范围 openTime  curTime
+        // 获取最新股票交易时间点
+        DateTime curDateTime = DateTimeUtil.getLastDate4Stock(DateTime.now());
+
+        // 假数据
+        curDateTime= DateTime.parse("2022-01-06 14:25:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"));
+        Date endDate= curDateTime.toDate();
+        //2 获取最新交易时间对应的开盘时间
+        Date startDate = DateTimeUtil.getOpenDate(curDateTime).toDate();
+
+        //3.查询涨停数据
+        //约定mapper中flag入参： 1-》涨停数据 0：跌停
+        List<Map> upList=stockRtInfoMapper.getStockUpdownCount(startDate,endDate,1);
+        //3.查询跌停
+        List<Map> downList=stockRtInfoMapper.getStockUpdownCount(startDate,endDate,0);
+        //4.组装数据
+        HashMap<String, List> info = new HashMap<>();
+        info.put("upList",upList);
+        info.put("downList",downList);
+        //5.返回结果
+        return R.ok(info);
+
 
     }
 

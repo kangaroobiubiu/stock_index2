@@ -72,9 +72,52 @@
     </select>
 
 
+<!--    <select id="getStockUpdownCount" resultType="map">-->
+<!--        select-->
+<!--            tmp.time-->
+<!--            count(*) as count-->
+<!--        from-->
+<!--            (select-->
+<!--                (cur_price - pre_close_price) / pre_close_price as ud,-->
+<!--                date_format(cur_time,'%Y%m%d%H%i') as time-->
+<!--        from stock_rt_info-->
+<!--        where cur_time BETWEEN #{startDate} and #{endDate}-->
+<!--        having ud-->
+<!--        <if test="flag==1">-->
+<!--            >=0.1-->
+<!--        </if>-->
+<!--        <if test="flag==0">-->
+<!--            &lt;=-0.1-->
+<!--        </if>-->
+<!--        ) as tmp-->
+<!--    group by tmp.time-->
+
+<!--    </select>-->
 
 
 
+
+    <select id="getStockUpdownCount" resultType="map">
+        select
+        date_format(tmp.time,'%Y%m%d%H%i') as time ,
+        count(*) as count
+        from (select
+        (sri.cur_price-sri.pre_close_price)/sri.pre_close_price as ud,
+        sri.cur_time as time
+        from stock_rt_info sri
+        where sri.cur_time BETWEEN #{startDate} and #{endDate}
+        having ud
+        <if test="flag==1">
+            >=0.1
+        </if>
+        <if test="flag==0">
+            &lt;=-0.1
+        </if>
+        )
+        as tmp
+        group by tmp.time
+        order by tmp.time asc
+    </select>
 
 
 

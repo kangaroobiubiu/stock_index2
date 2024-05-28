@@ -7,6 +7,7 @@ import com.itheima.stock.vo.resp.PageResult;
 import com.itheima.stock.vo.resp.R;
 
 import java.util.List;
+import java.util.Map;
 
 /*
 股票服务接口
@@ -32,6 +33,10 @@ public interface StockService {
     股票涨幅榜   作业
      */
     R<List<StockUpdownDomain>>  getIncreaseStocks();
+
+
+
+    R<Map<String,List>> getStockUpDownCount();
 
 
 

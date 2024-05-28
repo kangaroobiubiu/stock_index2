@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -65,6 +66,7 @@ public class StockController {
 
     /*
        涨幅榜功能实现(作业内容）  涨幅榜前4
+       day3 -6 视频中未说明
      */
 
     @GetMapping("/stock/increase")
@@ -74,6 +76,16 @@ public class StockController {
 
 
     }
+
+    @GetMapping("/stock/updown/count")
+    public R<Map<String,List>> getStockUpDownCount(){
+
+
+        return stockService.getStockUpDownCount();
+
+    }
+
+
 
 
 
