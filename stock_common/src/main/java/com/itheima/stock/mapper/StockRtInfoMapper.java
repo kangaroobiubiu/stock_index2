@@ -31,4 +31,7 @@ public interface StockRtInfoMapper {
     查询指定时间点下的股票数据集合
      */
     List<StockUpdownDomain> getStockInfoByTime(@Param("curDate") Date curDate);
+
+
+    List<StockUpdownDomain> getStockInfoByTime2(@Param("curDate") Date curDate);
 }

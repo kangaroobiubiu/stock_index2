@@ -95,6 +95,7 @@ public class StockServiceImpl implements StockService {
     }
 
     /*
+    day3
     分页查询最新股票数据
      */
     @Override
@@ -102,7 +103,7 @@ public class StockServiceImpl implements StockService {
 
         //     1.获取股票最新交易时间（精确到分钟，毫秒设置=0）
         Date curDate = DateTimeUtil.getLastDate4Stock(DateTime.now()).toDate();
-        //     mock data
+        //     mock data   假数据模拟，后序删除
         curDate = DateTime.parse("2021-12-30 09:42:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate();
 
         //     2.设置pagehelp分页参数
@@ -117,6 +118,27 @@ public class StockServiceImpl implements StockService {
         return R.ok(pageResult);
 
     }
+
+
+
+
+    public  R<List<StockUpdownDomain>>  getIncreaseStocks() {
+
+        //     1.获取股票最新交易时间（精确到分钟，毫秒设置=0）
+        Date curDate = DateTimeUtil.getLastDate4Stock(DateTime.now()).toDate();
+        //     mock data   假数据模拟，后序删除
+        curDate = DateTime.parse("2021-12-30 09:42:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate();
+
+
+        //     3.调用mapper查询
+        List<StockUpdownDomain> pageData = stockRtInfoMapper.getStockInfoByTime2(curDate);
+
+
+        //     4.响应数据
+        return R.ok(pageData);
+
+    }
+
 
 
 

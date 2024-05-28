@@ -40,6 +40,7 @@ public class StockController {
 
     /**
      *需求说明: 获取沪深两市板块最新数据，以交易总金额降序查询，取前10条数据
+     * 板块指数功能实现【作业】
      * @return
      */
     @GetMapping("/sector/all")
@@ -58,6 +59,18 @@ public class StockController {
 
         return stockService.getStockInfoByPage(page,pageSize);
 
+
+    }
+
+
+    /*
+       涨幅榜功能实现(作业内容）  涨幅榜前4
+     */
+
+    @GetMapping("/stock/increase")
+    public  R<List<StockUpdownDomain>> increaseStock(){
+
+        return stockService.getIncreaseStocks();
 
 
     }

@@ -27,4 +27,14 @@ public interface StockService {
      */
     R<PageResult<StockUpdownDomain>>  getStockInfoByPage(Integer page,Integer pageSize);
 
+
+    /*
+    股票涨幅榜   作业
+     */
+    R<List<StockUpdownDomain>>  getIncreaseStocks();
+
+
+
+
+
 }
