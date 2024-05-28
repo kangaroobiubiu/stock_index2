@@ -6,6 +6,7 @@ import com.itheima.stock.pojo.domain.StockUpdownDomain;
 import com.itheima.stock.vo.resp.PageResult;
 import com.itheima.stock.vo.resp.R;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,5 @@ public interface StockService {
     R<Map<String,List>> getStockUpDownCount();
 
 
-
-
-
+    void stockExport(HttpServletResponse response, Integer page, Integer pageSize);
 }

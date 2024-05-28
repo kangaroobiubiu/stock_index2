@@ -1,5 +1,8 @@
 package com.itheima.stock.service.impl;
 
+
+import com.alibaba.excel.EasyExcel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
@@ -17,11 +20,15 @@ import com.itheima.stock.utils.DateTimeUtil;
 import com.itheima.stock.vo.resp.PageResult;
 import com.itheima.stock.vo.resp.R;
 import com.itheima.stock.vo.resp.ResponseCode;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +39,7 @@ import java.util.Map;
 股票服务实现
  */
 @Service("stockService")
+@Slf4j
 public class StockServiceImpl implements StockService {
 
     @Autowired
@@ -166,6 +174,51 @@ public class StockServiceImpl implements StockService {
 
 
     }
+
+
+
+
+
+
+
+
+
+   public void stockExport(HttpServletResponse response, Integer page, Integer pageSize){
+        // 1.获取分页数据
+        R<PageResult<StockUpdownDomain>> r = this.getStockInfoByPage(page,pageSize);
+       List<StockUpdownDomain> rows = r.getData().getRows();
+
+       // 2. 将数据导出到excel
+       //设置响应excel文件格式类型
+       response.setContentType("application/vnd.ms-excel");
+       //2.设置响应数据的编码格式
+       response.setCharacterEncoding("utf-8");
+       //3.设置默认的文件名称
+       // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
+
+       try {
+           String fileName = URLEncoder.encode("stockRt", "UTF-8");
+           //设置默认文件名称：兼容一些特殊浏览器
+           response.setHeader("content-disposition", "attachment;filename=" + fileName + ".xlsx");
+           //4.响应excel流
+           EasyExcel
+                   .write(response.getOutputStream(),StockUpdownDomain.class)
+                   .sheet("股票涨幅信息")
+                   .doWrite(rows);
+       }catch (IOException e){
+           log.error("当前页码:{},每页大小:{},当前时间:{},异常信息:{}",page,pageSize,DateTime.now().toString("yyyy-MM-dd HH:mm:ss"),e.getMessage());
+           //   通知前端异常，然后重试
+           response.setContentType("application/json");
+           response.setCharacterEncoding("utf-8");
+           R<Object> error= R.error(ResponseCode.ERROR);
+           try {
+               String jsonData = new ObjectMapper().writeValueAsString(error);
+               response.getWriter().write(jsonData);
+           }catch (IOException ioException){
+               log.error("stockexport:响应错误信息失败,时间:{}",DateTime.now().toString("yyyy-MM-dd HH:mm:ss"));
+           }
+       }
+   }
 
 
 
