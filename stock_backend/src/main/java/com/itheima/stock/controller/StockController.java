@@ -1,9 +1,7 @@
 package com.itheima.stock.controller;
 
 
-import com.itheima.stock.pojo.domain.InnerMarketDomain;
-import com.itheima.stock.pojo.domain.StockBlockDomain;
-import com.itheima.stock.pojo.domain.StockUpdownDomain;
+import com.itheima.stock.pojo.domain.*;
 import com.itheima.stock.service.StockService;
 import com.itheima.stock.vo.resp.PageResult;
 import com.itheima.stock.vo.resp.R;
@@ -45,6 +43,7 @@ public class StockController {
      * 板块指数功能实现【作业】
      * @return
      */
+    @ApiOperation(value = "板块指数")
     @GetMapping("/sector/all")
     public R<List<StockBlockDomain>> sectorAll(){
         return stockService.sectorAllLimit();
@@ -54,6 +53,7 @@ public class StockController {
     /*
     分页查询最新股票交易数据
      */
+    @ApiOperation(value = "分页查询 涨幅榜 ")
     @GetMapping("/stock/all")
     public  R<PageResult<StockUpdownDomain>> getStockInfoByPage(@RequestParam(value="page",defaultValue = "1",required = false) Integer page,
                                                                @RequestParam(value = "pageSize",required = false,defaultValue = "20") Integer pageSize){
@@ -69,7 +69,7 @@ public class StockController {
        涨幅榜功能实现(作业内容）  涨幅榜前4
        day3 -6 视频中未说明
      */
-
+    @ApiOperation(value = "首页涨幅榜")
     @GetMapping("/stock/increase")
     public  R<List<StockUpdownDomain>> increaseStock(){
 
@@ -79,8 +79,9 @@ public class StockController {
     }
 
     /*
-    涨跌停统计
+    涨跌停数统计
      */
+    @ApiOperation(value = "涨跌停股票数目 统计")
     @GetMapping("/stock/updown/count")
     public R<Map<String,List>> getStockUpDownCount(){
 
@@ -96,6 +97,7 @@ public class StockController {
      * @param page  当前页
      * @param pageSize 每页大小
      */
+    @ApiOperation(value = "数据导出excel")
     @GetMapping("/stock/export")
     public void stockExport(@RequestParam(value="page",defaultValue = "1",required = false) Integer page,
                             @RequestParam(value = "pageSize",required = false,defaultValue = "20") Integer pageSize,
@@ -109,6 +111,7 @@ public class StockController {
      *  返回的json文件 那里  有点问题  "amtList":
      * @return
      */
+    @ApiOperation(value = "成交量对比")
     @GetMapping("/stock/tradeAmt")
     public R<Map<String,List>> getComparedStockTradeAmt(){
         return stockService.getComparedStockTradeAmt();
@@ -125,6 +128,42 @@ public class StockController {
     //     return stockService.stockTradeVol4InnerMarket();
     // }
     //
+
+
+
+    /**
+     * md 文件版本
+     * 查询当前时间下股票的涨跌幅度区间统计功能
+     * 如果当前日期不在有效时间内，则以最近的一个股票交易时间作为查询点
+     * @return
+     */
+    @ApiOperation(value = "涨跌幅度统计")
+    @GetMapping("/stock/updown")
+    public R<Map> getStockUpDown(){
+        return stockService.stockUpDownScopeCount();
+    }
+
+
+
+    /**
+     * 功能描述：查询单个个股的分时行情数据，也就是统计指定股票T日每分钟的交易数据；
+     *         如果当前日期不在有效时间内，则以最近的一个股票交易时间作为查询时间点
+     * @param code 股票编码
+     * @return
+     */
+    @GetMapping("/stock/screen/time-sharing")
+    public R<List<Stock4MinuteDomain>> stockScreenTimeSharing(String code){
+        return stockService.stockScreenTimeSharing(code);
+    }
+
+    /**
+     * 单个个股日K 数据查询 ，可以根据时间区间查询数日的K线数据
+     * @param stockCode 股票编码
+     */
+    @RequestMapping("/stock/screen/dkline")
+    public R<List<Stock4EvrDayDomain>> getDayKLinData(@RequestParam("code") String stockCode){
+        return stockService.stockCreenDkLine(stockCode);
+    }
 
 
 

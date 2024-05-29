@@ -1,5 +1,7 @@
 package com.itheima.stock.mapper;
 
+import com.itheima.stock.pojo.domain.Stock4EvrDayDomain;
+import com.itheima.stock.pojo.domain.Stock4MinuteDomain;
 import com.itheima.stock.pojo.domain.StockUpdownDomain;
 import com.itheima.stock.pojo.entity.StockRtInfo;
 import org.apache.ibatis.annotations.Param;
@@ -43,4 +45,44 @@ public interface StockRtInfoMapper {
 
     List<Map> getSumAmtInfo(@Param("openDate")Date openDate,@Param("endDate")Date endDate,@Param("marketCodes")List<String> marketCodes);
     // 这里报红不用理会 day4-03
+
+
+
+    /**
+     * md文件版本
+     * 统计指定时间点下，各个涨跌区间内股票的个数
+     * @param avlDate
+     * @return
+     */
+    List<Map> stockUpDownScopeCount(@Param("avlDate") Date avlDate);
+
+
+
+
+    /**
+     * 根据时间范围查询指定股票的交易流水
+     * @param stockCode 股票code
+     * @param startTime 起始时间
+     * @param endTime 终止时间
+     * @return
+     */
+    List<Stock4MinuteDomain> getStockInfoByCodeAndDate(@Param("stockCode") String stockCode,
+                                                       @Param("startTime") Date startTime,
+                                                       @Param("endTime") Date endTime);
+
+
+
+
+    /**
+     * 查询指定日期范围内指定股票每天的交易数据
+     * @param stockCode 股票code
+     * @param startTime 起始时间
+     * @param endTime 终止时间
+     * @return
+     */
+    List<Stock4EvrDayDomain> getStockInfo4EvrDay(@Param("stockCode") String stockCode,
+                                                 @Param("startTime") Date startTime,
+                                                 @Param("endTime") Date endTime);
+
+
 }
