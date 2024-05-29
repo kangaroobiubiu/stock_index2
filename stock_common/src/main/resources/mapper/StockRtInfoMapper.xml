@@ -120,6 +120,24 @@
     </select>
 
 
+    <select id="getSumAmtInfo" resultType="map">
+
+        select
+            date_format(cur_time,'%Y%m%d%H%i') as time,
+	        sum(trade_amount) as count
+        from
+            stock_market_index_info
+        where
+            cur_time between #{openDate} and #{endDate}
+          and market_code in
+        <foreach collection="marketCodes" item="mCode" open="("  separator="," close=")">
+            #{mCode}
+        </foreach>
+        group by cur_time
+        order by cur_time asc;
+
+    </select>
+
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from stock_rt_info

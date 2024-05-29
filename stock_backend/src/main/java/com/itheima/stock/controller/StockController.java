@@ -104,6 +104,31 @@ public class StockController {
     }
 
 
+    /**
+     * 功能描述：统计国内A股大盘T日和T-1日成交量对比功能（成交量为沪市和深市成交量之和）
+     *  返回的json文件 那里  有点问题  "amtList":
+     * @return
+     */
+    @GetMapping("/stock/tradeAmt")
+    public R<Map<String,List>> getComparedStockTradeAmt(){
+        return stockService.getComparedStockTradeAmt();
+    }
+
+
+    /**
+     * md文件版本
+     * 功能描述：统计国内A股大盘T日和T-1日成交量对比功能（成交量为沪市和深市成交量之和）
+     * @return
+     */
+    // @GetMapping("/stock/tradeAmt")
+    // public R<Map> stockTradeVol4InnerMarket(){
+    //     return stockService.stockTradeVol4InnerMarket();
+    // }
+    //
+
+
+
+
 
 
 

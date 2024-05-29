@@ -41,4 +41,19 @@ public interface StockService {
 
 
     void stockExport(HttpServletResponse response, Integer page, Integer pageSize);
+
+    /*
+       t t-1 日 成交量对比功能   视频版本   但是前端页面上 该部分加载不出来
+     */
+    R<Map<String,List>> getComparedStockTradeAmt();
+
+
+
+    /**
+     * 功能描述：统计国内A股大盘T日和T-1日成交量对比功能（成交量为沪市和深市成交量之和）   md文件版本
+     * @return
+     */
+    R<Map> stockTradeVol4InnerMarket();
+
+
 }

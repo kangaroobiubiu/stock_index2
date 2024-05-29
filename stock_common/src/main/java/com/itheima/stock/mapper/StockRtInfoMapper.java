@@ -41,4 +41,6 @@ public interface StockRtInfoMapper {
      */
     List<Map> getStockUpdownCount(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("flag") int flag);
 
+    List<Map> getSumAmtInfo(@Param("openDate")Date openDate,@Param("endDate")Date endDate,@Param("marketCodes")List<String> marketCodes);
+    // 这里报红不用理会 day4-03
 }
