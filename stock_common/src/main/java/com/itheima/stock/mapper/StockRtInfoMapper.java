@@ -85,4 +85,19 @@ public interface StockRtInfoMapper {
                                                  @Param("endTime") Date endTime);
 
 
+
+
+
+
+
+
+
+    /**
+     * 批量插入功能
+     * @param stockRtInfoList
+     */
+    int insertBatch(@Param("list") List<StockRtInfo> stockRtInfoList);
+
+
+
 }

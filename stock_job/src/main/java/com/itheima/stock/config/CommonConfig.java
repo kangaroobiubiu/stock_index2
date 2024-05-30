@@ -2,6 +2,7 @@ package com.itheima.stock.config;
 
 import com.itheima.stock.pojo.vo.StockInfoConfig;
 import com.itheima.stock.utils.IdWorker;
+import com.itheima.stock.utils.ParserStockInfoUtil;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,5 +20,15 @@ public class CommonConfig {
     public IdWorker idWorker(){
         // 指定当前为1号机房的2号机器生成
         return new IdWorker(2L,1L);
+    }
+
+    /**
+     * 配置解析工具bean   解析大盘 外盘 个股
+     * @param idWorker
+     * @return
+     */
+    @Bean
+    public ParserStockInfoUtil parserStockInfoUtil(){
+        return  new ParserStockInfoUtil(idWorker());
     }
 }  

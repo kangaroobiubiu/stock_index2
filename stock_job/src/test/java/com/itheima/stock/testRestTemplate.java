@@ -30,6 +30,10 @@ public class testRestTemplate {
     }
 
 
+    @Test
+    public void testMarket2(){
 
+        stockTimerTaskService.getStockRtIndex();  // 个股数据
+    }
 
 }
