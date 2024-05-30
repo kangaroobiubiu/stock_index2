@@ -1,6 +1,10 @@
 package com.itheima.stock.mapper;
 
+import com.itheima.stock.pojo.entity.StockMarketIndexInfo;
 import com.itheima.stock.pojo.entity.StockOuterMarketIndexInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.ArrayList;
 
 /**
 * @author 46035
@@ -9,6 +13,7 @@ import com.itheima.stock.pojo.entity.StockOuterMarketIndexInfo;
 * @Entity com.itheima.stock.pojo.entity.StockOuterMarketIndexInfo
 */
 public interface StockOuterMarketIndexInfoMapper {
+
 
     int deleteByPrimaryKey(Long id);
 
@@ -21,5 +26,8 @@ public interface StockOuterMarketIndexInfoMapper {
     int updateByPrimaryKeySelective(StockOuterMarketIndexInfo record);
 
     int updateByPrimaryKey(StockOuterMarketIndexInfo record);
+
+
+
 
 }

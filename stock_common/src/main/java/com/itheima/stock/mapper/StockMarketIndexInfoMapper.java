@@ -5,6 +5,7 @@ import com.itheima.stock.pojo.domain.StockBlockDomain;
 import com.itheima.stock.pojo.entity.StockMarketIndexInfo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,8 @@ public interface StockMarketIndexInfoMapper {
                                @Param("endTime") Date endTime);
 
 
+
+    int insertBatch(@Param("infos") ArrayList<StockMarketIndexInfo> list) ;
 
 
 }

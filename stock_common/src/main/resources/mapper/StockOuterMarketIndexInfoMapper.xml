@@ -61,6 +61,12 @@
                 <if test="curTime != null">#{curTime,jdbcType=TIMESTAMP},</if>
         </trim>
     </insert>
+
+
+
+
+
+
     <update id="updateByPrimaryKeySelective" parameterType="com.itheima.stock.pojo.entity.StockOuterMarketIndexInfo">
         update stock_outer_market_index_info
         <set>
