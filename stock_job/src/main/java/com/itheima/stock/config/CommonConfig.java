@@ -31,4 +31,9 @@ public class CommonConfig {
     public ParserStockInfoUtil parserStockInfoUtil(){
         return  new ParserStockInfoUtil(idWorker());
     }
+
+
+
+
+
 }  

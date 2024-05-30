@@ -19,6 +19,7 @@ import com.itheima.stock.vo.resp.PageResult;
 import com.itheima.stock.vo.resp.R;
 import com.itheima.stock.vo.resp.ResponseCode;
 import lombok.extern.slf4j.Slf4j;
+import org.ehcache.Cache;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,10 @@ public class StockServiceImpl implements StockService {
     @Autowired
     private StockRtInfoMapper stockRtInfoMapper;
 
-    @Override
+    @Autowired
+    private Cache<String,Object> caffeineCache; // 注入本地缓存
+
+  /*  @Override
     public R<List<InnerMarketDomain>> getInnerMarketInfo() {
 
         //1.获取最新交易时间点 精确到分钟  毫秒设置=0
@@ -74,7 +78,39 @@ public class StockServiceImpl implements StockService {
         return R.ok(data);
 
 
+    }*/
+
+    /*
+    用本地缓存 优化 getInnerMarketInfo（） 获取大盘数据   day5-20
+     */
+
+    public R<List<InnerMarketDomain>> getInnerMarketInfo() {
+
+        //从缓存中加载数据，如果不存在，则走补偿策略获取数据，并存入本地缓存
+        R<List<InnerMarketDomain>> result= (R<List<InnerMarketDomain>>) caffeineCache.get("innerMarketKey", key->{
+            //如果不存在，则从数据库查询
+            //1.获取最新的股票交易时间点
+            Date curDate = DateTimeUtil.getLastDate4Stock(DateTime.now()).toDate();
+            //TODO 伪造数据，后续删除
+            curDate=DateTime.parse("2022-01-03 09:47:00", DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).toDate();
+            //2.获取国内大盘编码集合
+            List<String> innerCodes = stockInfoConfig.getInner();
+            //3.调用mapper查询
+            List<InnerMarketDomain> infos= stockMarketIndexInfoMapper.getMarketInfo(curDate,innerCodes);
+            //4.响应
+            return R.ok(infos);
+        });
+        return result;
+
     }
+
+
+
+
+
+
+
+
 
 
 

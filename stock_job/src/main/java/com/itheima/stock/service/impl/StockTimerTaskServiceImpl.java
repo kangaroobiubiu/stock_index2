@@ -15,6 +15,7 @@ import com.itheima.stock.utils.ParseType;
 import com.itheima.stock.utils.ParserStockInfoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 
@@ -61,6 +62,11 @@ public class StockTimerTaskServiceImpl implements StockTimerTaskService {
 
     @Autowired
     private StockRtInfoMapper stockRtInfoMapper;
+
+
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
 
     /*
@@ -189,6 +195,10 @@ public class StockTimerTaskServiceImpl implements StockTimerTaskService {
     //     调用mapper 批量入库
         int cnt = stockMarketIndexInfoMapper.insertBatch(list);
         if(cnt>0){
+            //大盘数据采集完成后,通知backend工程刷新缓存
+            //通知后台终端刷新本地缓存，发送日期对象，接收方通过接收的日期与当前日期比对，能判断出数据延迟的时长，用于运维通知处理。
+            rabbitTemplate.convertAndSend("stockExchange","inner.market",new Date());
+
             log.info("当前时间:{},插入数据:{},成功",DateTime.now().toString("yyyy-MM-dd HH:mm:ss"),list);
         }else {
             log.error("当前时间:{},插入数据:{},失败",DateTime.now().toString("yyyy-MM-dd HH:mm:ss"),list);
@@ -244,8 +254,9 @@ public class StockTimerTaskServiceImpl implements StockTimerTaskService {
             // 调用工具类 解析后的数据
             List<StockRtInfo> infos = parserStockInfoUtil.parser4StockOrMarketInfo(result, ParseType.ASHARE);
             log.info("采集个股数据:{},数据量:{}",infos,infos.size());   // 到这里测试成功
-            //TODO 批量插入
 
+
+            //TODO 批量插入 day5-16
             int cnt = stockRtInfoMapper.insertBatch(infos);
 
             if(cnt>0){
